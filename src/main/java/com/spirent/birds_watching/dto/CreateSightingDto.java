@@ -19,7 +19,7 @@ public class CreateSightingDto {
     private LocalDateTime timestamp;
 
     public static Sighting toEntity(CreateSightingDto sighting, Bird bird) {
-        Sighting.builder()
+        return Sighting.builder()
                 .timestamp(sighting.getTimestamp())
                 .location(sighting.getLocation())
                 .bird(bird)

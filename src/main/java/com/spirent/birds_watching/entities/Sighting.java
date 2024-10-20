@@ -3,13 +3,7 @@ package com.spirent.birds_watching.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -18,7 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Sighting {
+@Table(name = "sightings")
+public class Sighting implements UpdateIfValid {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,6 +24,6 @@ public class Sighting {
     private LocalDateTime timestamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bird_id", nullable = false)
+    @JoinColumn(name = "bird_id")
     private Bird bird;
 }

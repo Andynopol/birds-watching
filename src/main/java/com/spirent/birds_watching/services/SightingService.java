@@ -2,6 +2,10 @@ package com.spirent.birds_watching.services;
 
 import com.spirent.birds_watching.dto.CreateSightingDto;
 import com.spirent.birds_watching.dto.SightingDto;
+import com.spirent.birds_watching.dto.UpdateSightingDto;
+import com.spirent.birds_watching.entities.Bird;
+import com.spirent.birds_watching.entities.Sighting;
+import com.spirent.birds_watching.entities.UpdateIfValid;
 import com.spirent.birds_watching.repositories.BirdRepository;
 import com.spirent.birds_watching.repositories.SightingRepository;
 import jakarta.transaction.Transactional;
@@ -32,7 +36,8 @@ public class SightingService {
     }
 
     public Optional<SightingDto> create(UUID birdId, CreateSightingDto sighting) {
-        var bird = this.birdRepo.findById(birdId);
+
+        Optional<Bird> bird = this.birdRepo.findById(birdId);
         if(bird.isEmpty()){
             return Optional.empty();
         }
@@ -44,9 +49,29 @@ public class SightingService {
         return Optional.of(SightingDto.fromEntity(this.sightingRepo.save(CreateSightingDto.toEntity(sighting, bird.get()))));
     }
 
+    public Optional<SightingDto> updateSighting(UUID sightingId, UUID birdId, UpdateSightingDto sighting) {
+        Optional<Bird> bird = this.birdRepo.findById(birdId);
+
+        if(bird.isEmpty()){
+            return Optional.empty();
+        }
+
+        Optional<Sighting> existingSighting = this.sightingRepo.findById(sightingId);
+        if(existingSighting.isEmpty()){
+            return Optional.empty();
+        }
+
+        return existingSighting.map(entity->{
+            UpdateIfValid.updateIfValid(entity::setLocation, sighting.getLocation());
+            UpdateIfValid.updateIfValid(entity::setTimestamp, sighting.getTimestamp());
+            return SightingDto.fromEntity(this.sightingRepo.save(entity));
+        });
+
+    }
+
     @Transactional
     public Optional<SightingDto> findByIdAndDelete(UUID id) {
-        var sighting = this.sightingRepo.findById(id);
+        Optional<Sighting> sighting = this.sightingRepo.findById(id);
 
         if(sighting.isEmpty()){
             return Optional.empty();
@@ -55,6 +80,5 @@ public class SightingService {
 
         return Optional.of(SightingDto.fromEntity(sighting.get()));
     }
-
 
 }

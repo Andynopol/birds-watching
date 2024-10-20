@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.spirent.birds_watching.dto.BirdDto;
 import com.spirent.birds_watching.dto.CreateBirdDto;
+import com.spirent.birds_watching.entities.UpdateIfValid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,27 +23,27 @@ public class BirdService {
         return this.birdRepo.findAll();
     }
 
-    public Optional<BirdDto> create(CreateBirdDto birdDto){
+    public BirdDto create(CreateBirdDto birdDto){
         Bird bird = birdRepo.save(CreateBirdDto.toEntity(birdDto));
-        return Optional.of(BirdDto.fromEntity(bird));
+        return BirdDto.fromEntity(bird);
     }
 
     public Optional<BirdDto> findBirdByIdAndUpdate(UUID id, BirdDto bird) {
-        var existingBird = this.birdRepo.findById(id);
+        Optional<Bird> existingBird = this.birdRepo.findById(id);
         if(existingBird.isEmpty()){
             return Optional.empty();
         }
         return existingBird.map(entity -> {
-            Bird.updateIfValid(entity::setName, bird.getName());
-            Bird.updateIfValid(entity::setColor, bird.getColor());
-            Bird.updateIfValid(entity::setWeight, bird.getWeight());
-            Bird.updateIfValid(entity::setHeight, bird.getHeight());
+            UpdateIfValid.updateIfValid(entity::setName, bird.getName());
+            UpdateIfValid.updateIfValid(entity::setColor, bird.getColor());
+            UpdateIfValid.updateIfValid(entity::setWeight, bird.getWeight());
+            UpdateIfValid.updateIfValid(entity::setHeight, bird.getHeight());
             return BirdDto.fromEntity(this.birdRepo.save(entity));
         });
     }
 
     public Optional<BirdDto> findBirdByIdAndDelete(UUID id) {
-        var bird = this.birdRepo.findById(id);
+        Optional<Bird> bird = this.birdRepo.findById(id);
         if (bird.isEmpty()) {
             return Optional.empty();
         }

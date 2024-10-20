@@ -28,7 +28,7 @@ public class BirdController {
 
     @PostMapping
     public ResponseEntity<?> addBird(@RequestBody @Valid CreateBirdDto bird) {
-        return this.birdService.create(bird).map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+        return ResponseEntity.ok(this.birdService.create(bird));
     }
 
     @PatchMapping("/update/{id}")

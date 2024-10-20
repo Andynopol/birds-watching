@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  birds-watching-pg:
+    image: postgres:14-alpine
+    container_name: 'birds-watching'
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=birdswatching
+      - POSTGRES_USER=birdswatching
+
+networks:
+  spirent:
+    driver: bridge
+    external: true

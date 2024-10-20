@@ -1,16 +1,11 @@
 package com.spirent.birds_watching.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -19,7 +14,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Bird {
+@Table(name = "bird")
+public class Bird implements UpdateIfValid {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,13 +29,20 @@ public class Bird {
 
     private double height;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Sighting> sightings;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bird", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Sighting> sightings = new ArrayList<>();
 
-    public static <T> void updateIfValid(Consumer<T> setter, T value) {
-        if(value != null) {
-            setter.accept(value);
-        }
+    @Override
+    public String toString() {
+        return "Bird{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", sightings=" + sightings +
+                '}';
     }
     
 }
