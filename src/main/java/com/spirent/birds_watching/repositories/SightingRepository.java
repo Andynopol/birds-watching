@@ -14,5 +14,4 @@ import java.util.Optional;
 @Repository
 public interface SightingRepository extends JpaRepository<Sighting, UUID>{
     public List<Sighting> findByBird(Bird bird);
-    public Optional<Sighting> findById(UUID id);
 }
