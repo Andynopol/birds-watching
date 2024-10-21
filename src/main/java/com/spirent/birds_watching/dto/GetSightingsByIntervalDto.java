@@ -1,16 +1,18 @@
 package com.spirent.birds_watching.dto;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
-import java.time.LocalDateTime;
 
 @Data
 @Getter
-@Setter
-public class UpdateSightingDto {
+public class GetSightingsByIntervalDto {
+    
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-    private LocalDateTime timestamp;
-    private String location;
+    private LocalDateTime from;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    private LocalDateTime to;
 }

@@ -3,6 +3,7 @@ package com.spirent.birds_watching.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.spirent.birds_watching.dto.BirdDto;
 import com.spirent.birds_watching.dto.CreateBirdDto;
@@ -18,16 +19,21 @@ public class BirdService {
     @Autowired
     private BirdRepository birdRepo;
 
-
-    public List<Bird> getBirds() {
-        return this.birdRepo.findAll();
+    // Find all birds or based on the provided parameters
+    public List<BirdDto> getBirds(Optional<String> name, Optional<String> color) {
+        return this.birdRepo.findByNameAndColor(name, color)
+            .stream()
+            .map(entity -> BirdDto.fromEntity(entity))
+            .collect(Collectors.toList());
     }
 
+    // Creates a bird
     public BirdDto create(CreateBirdDto birdDto){
         Bird bird = birdRepo.save(CreateBirdDto.toEntity(birdDto));
         return BirdDto.fromEntity(bird);
     }
 
+    // Updates a bird if the id provided is valid
     public Optional<BirdDto> findBirdByIdAndUpdate(UUID id, BirdDto bird) {
         Optional<Bird> existingBird = this.birdRepo.findById(id);
         if(existingBird.isEmpty()){
@@ -42,6 +48,7 @@ public class BirdService {
         });
     }
 
+    // Removes a bird if the id provided is valid.
     public Optional<BirdDto> findBirdByIdAndDelete(UUID id) {
         Optional<Bird> bird = this.birdRepo.findById(id);
         if (bird.isEmpty()) {

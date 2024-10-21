@@ -26,13 +26,77 @@
 			"response": []
 		},
 		{
+			"name": "Get Birds By Color",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/birds",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"birds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Birds By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/birds",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"birds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Birds By Color And Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/birds?name=Canary&color=yellow",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"birds"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Canary"
+						},
+						{
+							"key": "color",
+							"value": "yellow"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Bird",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Woodpecker\",\n    \"color\": \"Red, White and Black\",\n    \"height\": 20,\n    \"weight\": 13\n}",
+					"raw": "{\n    \"name\": \"Flamingo\",\n    \"color\": \"pink\",\n    \"height\": 25,\n    \"weight\": 40\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -59,7 +123,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"height\": 12\n}",
+					"raw": "{\n    \"height\": 35\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -80,7 +144,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "0abec173-9547-441c-bf40-48e57c5d153a"
+							"value": "6ba3a411-b6c0-47b8-b81f-d88d6ce60174"
 						}
 					]
 				}
@@ -105,7 +169,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "4cbf3f61-8f7e-4189-88ce-d9367aa0b78d"
+							"value": "6ba3a411-b6c0-47b8-b81f-d88d6ce60174"
 						}
 					]
 				}
@@ -145,7 +209,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"location\": \"Maramures\"\n}",
+					"raw": "{\n    \"location\": \"Bucegi\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -166,8 +230,64 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "0abec173-9547-441c-bf40-48e57c5d153a"
+							"value": "e025fb24-8273-40e1-80ec-46d74493a230"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Sightings By Location",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"location\": \"Bucegi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/sightings/location",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sightings",
+						"location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Sightings By Interval",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"2024-08-11T21:18:05.418296\",\n    \"to\": \"2024-10-21T11:00:18.388521\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/sightings/interval",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sightings",
+						"interval"
 					]
 				}
 			},

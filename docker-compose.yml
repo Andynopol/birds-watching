@@ -1,9 +1,24 @@
-version: '3'
-
 services:
+  birds-watching-spring:
+    image: birds-watching
+    container_name: 'birds-watching-spring'
+    networks:
+      - spirent
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: always
+    depends_on:
+      birds-watching-pg: 
+        condition: service_started
+    links:
+      - birds-watching-pg
   birds-watching-pg:
     image: postgres:14-alpine
-    container_name: 'birds-watching'
+    container_name: 'birds-watching-pg'
+    networks:
+      - spirent
     ports:
       - 5432:5432
     volumes:
@@ -11,6 +26,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=birdswatching
       - POSTGRES_USER=birdswatching
+    restart: always
 
 networks:
   spirent:

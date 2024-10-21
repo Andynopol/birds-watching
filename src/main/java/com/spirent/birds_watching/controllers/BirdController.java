@@ -1,18 +1,22 @@
 package com.spirent.birds_watching.controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.spirent.birds_watching.dto.BirdDto;
 import com.spirent.birds_watching.dto.CreateBirdDto;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.spirent.birds_watching.entities.Bird;
 import com.spirent.birds_watching.services.BirdService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("birds")
@@ -22,8 +26,8 @@ public class BirdController {
     private BirdService birdService;
 
     @GetMapping()
-    public ResponseEntity<List<Bird>> getBirds() {
-        return ResponseEntity.ok(this.birdService.getBirds());
+    public ResponseEntity<List<BirdDto>> getBirds(@RequestParam("name") Optional<String> name, @RequestParam("color") Optional<String> color) {
+        return ResponseEntity.ok(this.birdService.getBirds(name, color));
     }
 
     @PostMapping
